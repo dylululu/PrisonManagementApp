@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -36,13 +37,13 @@ public class DashboardView extends javax.swing.JFrame {
                 doc = db.parse(ten_file);
 
                 NodeList viVistorID = doc.getElementsByTagName("Visitor");
-                NodeList vi = doc.getElementsByTagName("Visitor");
-                NodeList viVistor = doc.getElementsByTagName("Visitor");
-                NodeList viVistor = doc.getElementsByTagName("Visitor");
-                NodeList viVistor = doc.getElementsByTagName("Visitor");
-                NodeList viVistor = doc.getElementsByTagName("Visitor");
-                NodeList viVistor = doc.getElementsByTagName("Visitor");
-                NodeList viVistor = doc.getElementsByTagName("Visitor");
+                NodeList viCriminalID = doc.getElementsByTagName("Visitor");
+                NodeList viDateOfTime = doc.getElementsByTagName("Visitor");
+                NodeList viAmountOfTime = doc.getElementsByTagName("Visitor");
+                NodeList viName = doc.getElementsByTagName("Visitor");
+                NodeList viRelationship = doc.getElementsByTagName("Visitor");
+                NodeList viLocation = doc.getElementsByTagName("Visitor");
+                NodeList viTime = doc.getElementsByTagName("Visitor");
 
             } catch (SAXException | IOException ex) {
                 Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
