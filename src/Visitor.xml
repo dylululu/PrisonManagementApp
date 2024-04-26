@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<VisitorInformation>
+   <Visitor>
+      <VisitorID>1</VisitorID>
+      <CriminalID>1</CriminalID>
+      <DateOfVisit>30/4/2024</DateOfVisit>
+      <Time>12:00</Time>
+      <AmountOfTime>50min</AmountOfTime>
+      <Location>Phong1</Location>
+      <Name>Hai Nam</Name>
+      <Relationship>Nguoi yeu</Relationship>
+   </Visitor>
+   <Visitor>
+      <VisitorID>2</VisitorID>
+      <CriminalID>1</CriminalID>
+      <DateOfVisit>30/4/2024</DateOfVisit>
+      <Time>12:00</Time>
+      <AmountOfTime>50min</AmountOfTime>
+      <Location>Phong1</Location>
+      <Name>Trung Nguyen</Name>
+      <Relationship>Nguoi yeu</Relationship>
+   </Visitor>
+</VisitorInformation>
