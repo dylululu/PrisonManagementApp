@@ -5,14 +5,34 @@
 package prisonmanagement.view;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import static javax.swing.text.html.HTML.Attribute.ID;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import prisonmanagement.model.Visitor;
+import prisonmanagement.utils.TaoXML;
 
 /**
  *
@@ -27,6 +47,8 @@ public class DashboardView extends javax.swing.JFrame {
     DocumentBuilder db;
     Document doc;
     String ten_file = "src/Visitor.xml";
+    ArrayList<Visitor> viList;
+    DefaultTableModel dfModel1;
 
     private void display() {
         try {
@@ -36,14 +58,59 @@ public class DashboardView extends javax.swing.JFrame {
                 db = dbf.newDocumentBuilder();
                 doc = db.parse(ten_file);
 
-                NodeList viVistorID = doc.getElementsByTagName("Visitor");
-                NodeList viCriminalID = doc.getElementsByTagName("Visitor");
-                NodeList viDateOfTime = doc.getElementsByTagName("Visitor");
-                NodeList viAmountOfTime = doc.getElementsByTagName("Visitor");
-                NodeList viName = doc.getElementsByTagName("Visitor");
-                NodeList viRelationship = doc.getElementsByTagName("Visitor");
-                NodeList viLocation = doc.getElementsByTagName("Visitor");
-                NodeList viTime = doc.getElementsByTagName("Visitor");
+                NodeList viVistor = doc.getElementsByTagName("Visitor");
+
+                NodeList viCriminalID = doc.getElementsByTagName("CriminalID");
+                NodeList viDateOfVisit = doc.getElementsByTagName("DateOfVisit");
+                NodeList viAmountOfTime = doc.getElementsByTagName("AmountOfTime");
+                NodeList viName = doc.getElementsByTagName("Name");
+                NodeList viRelationship = doc.getElementsByTagName("Relationship");
+                NodeList viLocation = doc.getElementsByTagName("Location");
+                NodeList viTime = doc.getElementsByTagName("Time");
+
+                viList = new ArrayList<>();
+                for (int i = 0; i < viVistor.getLength(); i++) {
+                    Visitor vi = new Visitor();
+
+                    vi.setVisitorID(viVistor.item(i).getAttributes().getNamedItem("visitorID").getNodeValue());
+                    vi.setCriminalID(viCriminalID.item(i).getTextContent());
+                    vi.setDateOfVisit(viDateOfVisit.item(i).getTextContent());
+                    vi.setAmountOfTime(viAmountOfTime.item(i).getTextContent());
+                    vi.setNameVisitor(viName.item(i).getTextContent());
+                    vi.setRelationship(viRelationship.item(i).getTextContent());
+                    vi.setLocation(viLocation.item(i).getTextContent());
+                    vi.setTime(viTime.item(i).getTextContent());
+
+                    viList.add(vi);
+                }
+
+                dfModel1 = new DefaultTableModel();
+                dfModel1.setColumnCount(0);
+                dfModel1.setRowCount(0);
+                dfModel1.addColumn("VisitorID");
+                dfModel1.addColumn("CriminalID");
+                dfModel1.addColumn("DateOfVisit");
+                dfModel1.addColumn("AmountOfTime");
+                dfModel1.addColumn("Name");
+                dfModel1.addColumn("Time");
+                dfModel1.addColumn("Relationship");
+                dfModel1.addColumn("Location");
+
+                for (Visitor vi : viList) {
+                    Vector v = new Vector();
+                    v.add(vi.getVisitorID());
+                    v.add(vi.getCriminalID());
+                    v.add(vi.getDateOfVisit());
+                    v.add(vi.getAmountOfTime());
+                    v.add(vi.getNameVisitor());
+                    v.add(vi.getTime());
+                    v.add(vi.getRelationship());
+                    v.add(vi.getLocation());
+
+                    dfModel1.addRow(v);
+
+                }
+                jTable2.setModel(dfModel1);
 
             } catch (SAXException | IOException ex) {
                 Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,6 +122,8 @@ public class DashboardView extends javax.swing.JFrame {
 
     public DashboardView() {
         initComponents();
+        setLocationRelativeTo(null);
+        display();
     }
 
     /**
@@ -118,25 +187,25 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        editButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        clearButton = new javax.swing.JButton();
+        visitorIDTextField = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        criminalIDTextField = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        dateOfVisitTextField = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
+        timeTextField = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        amountOfTimeTextField = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
+        locationTextField = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
+        nameTextField = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        relationshipTextField = new javax.swing.JTextField();
         jLabel34 = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -469,103 +538,103 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel26.setText("NAME");
         jPanel6.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, -1));
 
-        jButton6.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(60, 47, 29));
-        jButton6.setText("EDIT");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        editButton.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        editButton.setForeground(new java.awt.Color(60, 47, 29));
+        editButton.setText("EDIT");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                editButtonActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 90, -1));
+        jPanel6.add(editButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 90, -1));
 
-        jButton7.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(60, 47, 29));
-        jButton7.setText("ADD");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        addButton.setForeground(new java.awt.Color(60, 47, 29));
+        addButton.setText("ADD");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 420, 90, -1));
+        jPanel6.add(addButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 420, 90, -1));
 
-        jButton8.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(60, 47, 29));
-        jButton8.setText("DELETE");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        deleteButton.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        deleteButton.setForeground(new java.awt.Color(60, 47, 29));
+        deleteButton.setText("DELETE");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                deleteButtonActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 90, -1));
+        jPanel6.add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 90, -1));
 
-        jButton9.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(60, 47, 29));
-        jButton9.setText("CLEAR");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        clearButton.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        clearButton.setForeground(new java.awt.Color(60, 47, 29));
+        clearButton.setText("CLEAR");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                clearButtonActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 90, -1));
+        jPanel6.add(clearButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 90, -1));
 
-        jTextField1.setBorder(null);
-        jPanel6.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 180, -1));
+        visitorIDTextField.setBorder(null);
+        jPanel6.add(visitorIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 180, -1));
 
         jLabel27.setText("______________________________________");
         jPanel6.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
-        jTextField9.setBorder(null);
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        criminalIDTextField.setBorder(null);
+        criminalIDTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                criminalIDTextFieldActionPerformed(evt);
             }
         });
-        jPanel6.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, -1));
+        jPanel6.add(criminalIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, -1));
 
         jLabel28.setText("______________________________________");
         jPanel6.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
-        jTextField10.setBorder(null);
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
+        dateOfVisitTextField.setBorder(null);
+        dateOfVisitTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
+                dateOfVisitTextFieldActionPerformed(evt);
             }
         });
-        jPanel6.add(jTextField10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 180, -1));
+        jPanel6.add(dateOfVisitTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 180, -1));
 
         jLabel29.setText("______________________________________");
         jPanel6.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
 
-        jTextField11.setBorder(null);
-        jPanel6.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 180, -1));
+        timeTextField.setBorder(null);
+        jPanel6.add(timeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 180, -1));
 
         jLabel30.setText("______________________________________");
         jPanel6.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
 
-        jTextField12.setBorder(null);
-        jPanel6.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 180, -1));
+        amountOfTimeTextField.setBorder(null);
+        jPanel6.add(amountOfTimeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 180, -1));
 
         jLabel31.setText("______________________________________");
         jPanel6.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
-        jTextField13.setBorder(null);
-        jTextField13.setCaretColor(new java.awt.Color(255, 255, 255));
-        jPanel6.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 180, -1));
+        locationTextField.setBorder(null);
+        locationTextField.setCaretColor(new java.awt.Color(255, 255, 255));
+        jPanel6.add(locationTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 180, -1));
 
         jLabel32.setText("______________________________________");
         jPanel6.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
 
-        jTextField14.setBorder(null);
-        jTextField14.setCaretColor(new java.awt.Color(255, 255, 255));
-        jPanel6.add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 180, -1));
+        nameTextField.setBorder(null);
+        nameTextField.setCaretColor(new java.awt.Color(255, 255, 255));
+        jPanel6.add(nameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 180, -1));
 
         jLabel33.setText("______________________________________");
         jPanel6.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, -1, -1));
 
-        jTextField15.setBorder(null);
-        jTextField15.setCaretColor(new java.awt.Color(255, 255, 255));
-        jPanel6.add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 180, -1));
+        relationshipTextField.setBorder(null);
+        relationshipTextField.setCaretColor(new java.awt.Color(255, 255, 255));
+        jPanel6.add(relationshipTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 180, -1));
 
         jLabel34.setText("______________________________________");
         jPanel6.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, -1, -1));
@@ -593,6 +662,11 @@ public class DashboardView extends javax.swing.JFrame {
                 "ID", "Cri ID", "D.O.V", "Time", "Amount", "Location", "Name", "Relationship"
             }
         ));
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
         if (jTable2.getColumnModel().getColumnCount() > 0) {
             jTable2.getColumnModel().getColumn(0).setPreferredWidth(10);
@@ -609,6 +683,11 @@ public class DashboardView extends javax.swing.JFrame {
 
         jTextField17.setBorder(null);
         jTextField17.setCaretColor(new java.awt.Color(255, 255, 255));
+        jTextField17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField17ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jTextField17, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 390, -1));
 
         jLabel50.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
@@ -658,29 +737,122 @@ public class DashboardView extends javax.swing.JFrame {
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        try {
+            String visitorID, criminalID, dateOfVisit, time, amountOfTime, location, name, relationship, path;
+            visitorID = visitorIDTextField.getText();
+            criminalID = criminalIDTextField.getText();
+            dateOfVisit = dateOfVisitTextField.getText();
+            time = timeTextField.getText();
+            amountOfTime = amountOfTimeTextField.getText();
+            location = locationTextField.getText();
+            name = nameTextField.getText();
+            relationship = relationshipTextField.getText();
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+            if (visitorID.trim().isEmpty() || !daTrungVistorID(visitorID)) {
+                JOptionPane.showMessageDialog(this, "Mã nhân viên không hợp lê", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                path = "VisitorInformation/Visitor[@visitorID='" + visitorID + "']";
+                XPathFactory xpf = XPathFactory.newInstance();
+                XPath xp = xpf.newXPath();
+                Node chose = (Node) xp.evaluate(path, doc, XPathConstants.NODE);
+                NodeList n1Visitor = chose.getChildNodes();
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+                n1Visitor.item(1).setTextContent(criminalID);
+                n1Visitor.item(3).setTextContent(dateOfVisit);
+                n1Visitor.item(5).setTextContent(time);
+                n1Visitor.item(7).setTextContent(amountOfTime);
+                n1Visitor.item(9).setTextContent(location);
+                n1Visitor.item(11).setTextContent(name);
+                n1Visitor.item(13).setTextContent(relationship);
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+                saveFile();
+                display();
+            }
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+        } catch (XPathExpressionException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
+    }//GEN-LAST:event_editButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
+        String visitorID, criminalID, dateOfVisit, time, amountOfTime, location, name, relationship;
+        visitorID = visitorIDTextField.getText();
+        criminalID = criminalIDTextField.getText();
+        dateOfVisit = dateOfVisitTextField.getText();
+        time = timeTextField.getText();
+        amountOfTime = amountOfTimeTextField.getText();
+        location = locationTextField.getText();
+        name = nameTextField.getText();
+        relationship = relationshipTextField.getText();
+
+        if (!fullInformation(visitorID, criminalID, dateOfVisit, time, amountOfTime, location, name, relationship)) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đủ thông tin ", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (daTrungVistorID(visitorID)) {
+                JOptionPane.showMessageDialog(this, "Đã trùng mã VisitorID", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                Visitor visitor = new Visitor(visitorID, criminalID, dateOfVisit, time, amountOfTime, location, name, relationship);
+                Element VisitorInformation = doc.getDocumentElement();
+                addVisitor(doc, VisitorInformation, visitor);
+                saveFile();
+
+                JOptionPane.showMessageDialog(this, "Thêm thành công", "Information", JOptionPane.INFORMATION_MESSAGE);
+                delete();
+                display();
+            }
+
+        }
+
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        String visitorID, path;
+        visitorID = visitorIDTextField.getText();
+
+        if (visitorID.trim().isEmpty() || !daTrungVistorID(visitorID)) {
+            JOptionPane.showMessageDialog(this, "Mã nhân viên không hợp lê", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                int result;
+                path = "VisitorInformation/Visitor[@visitorID='" + visitorID + "']";
+                XPathFactory xpf = XPathFactory.newInstance();
+                XPath xp = xpf.newXPath();
+                Node chose = (Node) xp.evaluate(path, doc, XPathConstants.NODE);
+                Node parent = chose.getParentNode();
+                result = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa", "Confirm", JOptionPane.YES_NO_OPTION);
+                if (result == 0) {
+                    parent.removeChild(chose);
+                    saveFile();
+                    display();
+                    JOptionPane.showMessageDialog(this, "Xóa thành công!", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (XPathExpressionException ex) {
+                Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        // TODO add your handling code here:
+        delete();
+    }//GEN-LAST:event_clearButtonActionPerformed
+
+    private void criminalIDTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_criminalIDTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_criminalIDTextFieldActionPerformed
+
+    private void dateOfVisitTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateOfVisitTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dateOfVisitTextFieldActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
@@ -695,6 +867,35 @@ public class DashboardView extends javax.swing.JFrame {
     private void jLabel52MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel52MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel52MouseClicked
+
+    private void jTextField17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField17ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField17ActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        int row_selected = jTable2.getSelectedRow();
+        String visitorID, criminalID, dateOfVisit, time, amountOfTime, location, name, relationship;
+        visitorID = (String) jTable2.getValueAt(row_selected, 0);
+        criminalID = (String) jTable2.getValueAt(row_selected, 1);
+        dateOfVisit = (String) jTable2.getValueAt(row_selected, 2);
+        amountOfTime = (String) jTable2.getValueAt(row_selected, 3);
+        name = (String) jTable2.getValueAt(row_selected, 4);
+        time = (String) jTable2.getValueAt(row_selected, 5);
+        relationship = (String) jTable2.getValueAt(row_selected, 6);
+        location = (String) jTable2.getValueAt(row_selected, 7);
+
+        visitorIDTextField.setText(visitorID);
+        criminalIDTextField.setText(criminalID);
+        dateOfVisitTextField.setText(dateOfVisit);
+        timeTextField.setText(time);
+        amountOfTimeTextField.setText(amountOfTime);
+        locationTextField.setText(location);
+        nameTextField.setText(name);
+        relationshipTextField.setText(relationship);
+
+
+    }//GEN-LAST:event_jTable2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -731,15 +932,105 @@ public class DashboardView extends javax.swing.JFrame {
         });
     }
 
+    private boolean fullInformation(String visitorID, String criminalID, String dateOfVisit, String time, String amountOfTime, String location, String name, String relationship) {
+        boolean full = true;
+        if (visitorID.trim().isEmpty() || criminalID.trim().isEmpty() || dateOfVisit.trim().isEmpty() || time.trim().isEmpty() || amountOfTime.trim().isEmpty() || location.trim().isEmpty() || name.trim().isEmpty()
+                || relationship.trim().isEmpty()) {
+            full = false;
+        }
+        return full;
+    }
+
+    private boolean daTrungVistorID(String visitorID) {
+        boolean daTrung = false;
+        for (Visitor vi : viList) {
+            if (vi.getVisitorID().compareToIgnoreCase(visitorID) == 0) {
+                daTrung = true;
+                break;
+            }
+        }
+        return daTrung;
+    }
+
+    static private void addVisitor(Document doc, Element VisitorInformation, Visitor vi) {
+        Element Visitor = doc.createElement("Visitor");
+
+        Element CriminalID = doc.createElement("CriminalID");
+        CriminalID.setTextContent(vi.getCriminalID());
+
+        Element DateOfVisit = doc.createElement("DateOfVisit");
+        DateOfVisit.setTextContent(vi.getDateOfVisit());
+
+        Element Time = doc.createElement("Time");
+        Time.setTextContent(vi.getTime());
+
+        Element AmountOfTime = doc.createElement("AmountOfTime");
+        AmountOfTime.setTextContent(vi.getAmountOfTime());
+
+        Element Location = doc.createElement("Location");
+        Location.setTextContent(vi.getLocation());
+
+        Element Name = doc.createElement("Name");
+        Name.setTextContent(vi.getNameVisitor());
+
+        Element Relationship = doc.createElement("Relationship");
+        Relationship.setTextContent(vi.getRelationship());
+
+        Visitor.setAttribute("visitorID", vi.getVisitorID());
+        Visitor.appendChild(CriminalID);
+        Visitor.appendChild(DateOfVisit);
+        Visitor.appendChild(Time);
+        Visitor.appendChild(AmountOfTime);
+        Visitor.appendChild(Location);
+        Visitor.appendChild(Name);
+        Visitor.appendChild(Relationship);
+
+        VisitorInformation.appendChild(Visitor);
+
+    }
+
+    private void saveFile() {
+        TransformerFactory tff = TransformerFactory.newInstance();
+        try {
+            Transformer tf = tff.newTransformer();
+            tf.setOutputProperty(OutputKeys.INDENT, "yes");
+            tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "3");
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult("src/Visitor.xml");
+            tf.transform(source, result);
+            System.out.println("Ghi file thanh cong");
+
+        } catch (TransformerConfigurationException ex) {
+            Logger.getLogger(TaoXML.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(TaoXML.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void delete() {
+        visitorIDTextField.setText("");
+        criminalIDTextField.setText("");
+        dateOfVisitTextField.setText("");
+        timeTextField.setText("");
+        amountOfTimeTextField.setText("");
+        locationTextField.setText("");
+        nameTextField.setText("");
+        relationshipTextField.setText("");
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JTextField amountOfTimeTextField;
+    private javax.swing.JButton clearButton;
+    private javax.swing.JTextField criminalIDTextField;
+    private javax.swing.JTextField dateOfVisitTextField;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton editButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -795,13 +1086,6 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField2;
@@ -811,6 +1095,10 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField locationTextField;
+    private javax.swing.JTextField nameTextField;
+    private javax.swing.JTextField relationshipTextField;
+    private javax.swing.JTextField timeTextField;
+    private javax.swing.JTextField visitorIDTextField;
     // End of variables declaration//GEN-END:variables
 }

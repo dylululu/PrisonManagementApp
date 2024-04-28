@@ -5,12 +5,14 @@
 package prisonmanagement.model;
 
 import java.util.Date;
+import javax.swing.text.html.HTML.Attribute;
 
 /**
  *
  * @author t460
  */
 public class Visitor {
+
     private String visitorID;
     private String criminalID;
     private String dateOfVisit;
@@ -19,9 +21,9 @@ public class Visitor {
     private String location;
     private String nameVisitor;
     private String relationship;
-    
-    public Visitor(){
-        
+
+    public Visitor() {
+
     }
 
     public Visitor( String visitorID, String criminalID, String dateOfVisit, String time, String amountOfTime, String location, String nameVisitor, String relationship) {
@@ -115,5 +117,4 @@ public class Visitor {
         return sb.toString();
     }
 
-    
 }
