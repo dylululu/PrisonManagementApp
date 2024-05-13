@@ -6,6 +6,8 @@ package prisonmanagement.view;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +52,50 @@ public class DashboardView extends javax.swing.JFrame {
     ArrayList<Visitor> viList;
     DefaultTableModel dfModel1;
 
-    private void display() {
+    ArrayList<Visitor> getAllVisitor() {
+        dbf = DocumentBuilderFactory.newInstance();
+        try {
+            db = dbf.newDocumentBuilder();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            doc = db.parse(ten_file);
+        } catch (SAXException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        NodeList viVistor = doc.getElementsByTagName("Visitor");
+
+        NodeList viCriminalID = doc.getElementsByTagName("CriminalID");
+        NodeList viDateOfVisit = doc.getElementsByTagName("DateOfVisit");
+        NodeList viAmountOfTime = doc.getElementsByTagName("AmountOfTime");
+        NodeList viName = doc.getElementsByTagName("Name");
+        NodeList viRelationship = doc.getElementsByTagName("Relationship");
+        NodeList viLocation = doc.getElementsByTagName("Location");
+        NodeList viTime = doc.getElementsByTagName("Time");
+
+        viList = new ArrayList<>();
+        for (int i = 0; i < viVistor.getLength(); i++) {
+            Visitor vi = new Visitor();
+
+            vi.setVisitorID(viVistor.item(i).getAttributes().getNamedItem("visitorID").getNodeValue());
+            vi.setCriminalID(viCriminalID.item(i).getTextContent());
+            vi.setDateOfVisit(viDateOfVisit.item(i).getTextContent());
+            vi.setAmountOfTime(viAmountOfTime.item(i).getTextContent());
+            vi.setNameVisitor(viName.item(i).getTextContent());
+            vi.setRelationship(viRelationship.item(i).getTextContent());
+            vi.setLocation(viLocation.item(i).getTextContent());
+            vi.setTime(viTime.item(i).getTextContent());
+
+            viList.add(vi);
+        }
+        return viList;
+    }
+
+    private void display(ArrayList<Visitor> visitorList) {
         try {
 
             try {
@@ -96,7 +141,7 @@ public class DashboardView extends javax.swing.JFrame {
                 dfModel1.addColumn("Relationship");
                 dfModel1.addColumn("Location");
 
-                for (Visitor vi : viList) {
+                for (Visitor vi : visitorList) {
                     Vector v = new Vector();
                     v.add(vi.getVisitorID());
                     v.add(vi.getCriminalID());
@@ -123,7 +168,7 @@ public class DashboardView extends javax.swing.JFrame {
     public DashboardView() {
         initComponents();
         setLocationRelativeTo(null);
-        display();
+        display(this.getAllVisitor());
     }
 
     /**
@@ -211,10 +256,12 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jTextField17 = new javax.swing.JTextField();
+        jSearchText = new javax.swing.JTextField();
         jLabel50 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
+        SearchButton = new javax.swing.JButton();
+        SortButton = new javax.swing.JButton();
+        SortComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -284,7 +331,7 @@ public class DashboardView extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGap(0, 504, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -479,7 +526,7 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 660, 400));
 
         jLabel49.setIcon(new javax.swing.ImageIcon("src/main/java/prisonmanagement/icon/search-icon-256x256-1ihlz8ty.png"));
-        jPanel3.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 60, -1, -1));
+        jPanel3.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 60, 10, 10));
 
         jTextField16.setBorder(null);
         jTextField16.setCaretColor(new java.awt.Color(255, 255, 255));
@@ -546,7 +593,7 @@ public class DashboardView extends javax.swing.JFrame {
                 editButtonActionPerformed(evt);
             }
         });
-        jPanel6.add(editButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 90, -1));
+        jPanel6.add(editButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 420, 90, -1));
 
         addButton.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         addButton.setForeground(new java.awt.Color(60, 47, 29));
@@ -556,7 +603,7 @@ public class DashboardView extends javax.swing.JFrame {
                 addButtonActionPerformed(evt);
             }
         });
-        jPanel6.add(addButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 420, 90, -1));
+        jPanel6.add(addButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 90, -1));
 
         deleteButton.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(60, 47, 29));
@@ -566,7 +613,7 @@ public class DashboardView extends javax.swing.JFrame {
                 deleteButtonActionPerformed(evt);
             }
         });
-        jPanel6.add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 90, -1));
+        jPanel6.add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 90, -1));
 
         clearButton.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         clearButton.setForeground(new java.awt.Color(60, 47, 29));
@@ -576,7 +623,7 @@ public class DashboardView extends javax.swing.JFrame {
                 clearButtonActionPerformed(evt);
             }
         });
-        jPanel6.add(clearButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 90, -1));
+        jPanel6.add(clearButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 90, -1));
 
         visitorIDTextField.setBorder(null);
         jPanel6.add(visitorIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 180, -1));
@@ -673,7 +720,7 @@ public class DashboardView extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(1).setPreferredWidth(20);
             jTable2.getColumnModel().getColumn(2).setPreferredWidth(55);
             jTable2.getColumnModel().getColumn(3).setPreferredWidth(10);
-            jTable2.getColumnModel().getColumn(4).setPreferredWidth(10);
+            jTable2.getColumnModel().getColumn(4).setPreferredWidth(14);
             jTable2.getColumnModel().getColumn(5).setPreferredWidth(45);
             jTable2.getColumnModel().getColumn(6).setPreferredWidth(100);
             jTable2.getColumnModel().getColumn(7).setPreferredWidth(45);
@@ -681,25 +728,46 @@ public class DashboardView extends javax.swing.JFrame {
 
         jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 660, 400));
 
-        jTextField17.setBorder(null);
-        jTextField17.setCaretColor(new java.awt.Color(255, 255, 255));
-        jTextField17.addActionListener(new java.awt.event.ActionListener() {
+        jSearchText.setBorder(null);
+        jSearchText.setCaretColor(new java.awt.Color(255, 255, 255));
+        jSearchText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField17ActionPerformed(evt);
+                jSearchTextActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField17, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 390, -1));
+        jPanel2.add(jSearchText, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, 370, -1));
 
         jLabel50.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
         jLabel50.setText("_____________________________________________________________________________________________________________________");
-        jPanel2.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, 390, 20));
-
-        jLabel51.setIcon(new javax.swing.ImageIcon("src/main/java/prisonmanagement/icon/search-icon-256x256-1ihlz8ty.png"));
-        jPanel2.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 60, -1, -1));
+        jPanel2.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 390, 20));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "ID", "Name", "Gender" }));
         jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 60, -1, -1));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 50, -1, -1));
+
+        SearchButton.setText("Search");
+        SearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchButtonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(SearchButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 80, -1, -1));
+
+        SortButton.setText("Sort");
+        SortButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SortButtonActionPerformed(evt);
+            }
+        });
+        jPanel2.add(SortButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 80, -1, -1));
+
+        SortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Name", "Date" }));
+        jPanel2.add(SortComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 50, 70, -1));
 
         jTabbedPane1.addTab("tab1", jPanel2);
 
@@ -749,26 +817,22 @@ public class DashboardView extends javax.swing.JFrame {
             name = nameTextField.getText();
             relationship = relationshipTextField.getText();
 
-            if (visitorID.trim().isEmpty() || !daTrungVistorID(visitorID)) {
-                JOptionPane.showMessageDialog(this, "Mã nhân viên không hợp lê", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else {
-                path = "VisitorInformation/Visitor[@visitorID='" + visitorID + "']";
-                XPathFactory xpf = XPathFactory.newInstance();
-                XPath xp = xpf.newXPath();
-                Node chose = (Node) xp.evaluate(path, doc, XPathConstants.NODE);
-                NodeList n1Visitor = chose.getChildNodes();
+            path = "VisitorInformation/Visitor[@visitorID='" + visitorID + "']";
+            XPathFactory xpf = XPathFactory.newInstance();
+            XPath xp = xpf.newXPath();
+            Node chose = (Node) xp.evaluate(path, doc, XPathConstants.NODE);
+            NodeList n1Visitor = chose.getChildNodes();
 
-                n1Visitor.item(1).setTextContent(criminalID);
-                n1Visitor.item(3).setTextContent(dateOfVisit);
-                n1Visitor.item(5).setTextContent(time);
-                n1Visitor.item(7).setTextContent(amountOfTime);
-                n1Visitor.item(9).setTextContent(location);
-                n1Visitor.item(11).setTextContent(name);
-                n1Visitor.item(13).setTextContent(relationship);
+            n1Visitor.item(1).setTextContent(criminalID);
+            n1Visitor.item(3).setTextContent(dateOfVisit);
+            n1Visitor.item(5).setTextContent(time);
+            n1Visitor.item(7).setTextContent(amountOfTime);
+            n1Visitor.item(9).setTextContent(location);
+            n1Visitor.item(11).setTextContent(name);
+            n1Visitor.item(13).setTextContent(relationship);
 
-                saveFile();
-                display();
-            }
+            saveFile();
+            display(this.getAllVisitor());
 
         } catch (XPathExpressionException ex) {
             Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
@@ -803,11 +867,10 @@ public class DashboardView extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(this, "Thêm thành công", "Information", JOptionPane.INFORMATION_MESSAGE);
                 delete();
-                display();
+                display(this.getAllVisitor());
+
             }
-
         }
-
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -815,30 +878,24 @@ public class DashboardView extends javax.swing.JFrame {
         String visitorID, path;
         visitorID = visitorIDTextField.getText();
 
-        if (visitorID.trim().isEmpty() || !daTrungVistorID(visitorID)) {
-            JOptionPane.showMessageDialog(this, "Mã nhân viên không hợp lê", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
-            try {
-                int result;
-                path = "VisitorInformation/Visitor[@visitorID='" + visitorID + "']";
-                XPathFactory xpf = XPathFactory.newInstance();
-                XPath xp = xpf.newXPath();
-                Node chose = (Node) xp.evaluate(path, doc, XPathConstants.NODE);
-                Node parent = chose.getParentNode();
-                result = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa", "Confirm", JOptionPane.YES_NO_OPTION);
-                if (result == 0) {
-                    parent.removeChild(chose);
-                    saveFile();
-                    display();
-                    JOptionPane.showMessageDialog(this, "Xóa thành công!", "Information", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            int result;
+            path = "VisitorInformation/Visitor[@visitorID='" + visitorID + "']";
+            XPathFactory xpf = XPathFactory.newInstance();
+            XPath xp = xpf.newXPath();
+            Node chose = (Node) xp.evaluate(path, doc, XPathConstants.NODE);
+            Node parent = chose.getParentNode();
+            result = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa", "Confirm", JOptionPane.YES_NO_OPTION);
+            if (result == 0) {
+                parent.removeChild(chose);
+                saveFile();
+                display(this.getAllVisitor());
+                JOptionPane.showMessageDialog(this, "Xóa thành công!", "Information", JOptionPane.INFORMATION_MESSAGE);
 
-                }
-            } catch (XPathExpressionException ex) {
-                Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } catch (XPathExpressionException ex) {
+            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -868,16 +925,34 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel52MouseClicked
 
-    private void jTextField17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField17ActionPerformed
+    private void jSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField17ActionPerformed
+    }//GEN-LAST:event_jSearchTextActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
         // TODO add your handling code here:
         int row_selected = jTable2.getSelectedRow();
-        String visitorID, criminalID, dateOfVisit, time, amountOfTime, location, name, relationship;
-        visitorID = (String) jTable2.getValueAt(row_selected, 0);
-        criminalID = (String) jTable2.getValueAt(row_selected, 1);
+        Long visitorID = null, criminalID = null;
+        String dateOfVisit, time, amountOfTime, location, name, relationship;
+        Object visitorIDValue = jTable2.getValueAt(row_selected, 0);
+        Object criminalIDValue = jTable2.getValueAt(row_selected, 1);
+
+        if (visitorIDValue instanceof Long) {
+            visitorID = (Long) visitorIDValue;
+        } else if (visitorIDValue instanceof String) {
+            visitorID = Long.parseLong((String) visitorIDValue);
+        } else {
+            // Xử lý lỗi - giá trị không hợp lệ
+        }
+
+        if (criminalIDValue instanceof Long) {
+            criminalID = (Long) criminalIDValue;
+        } else if (criminalIDValue instanceof String) {
+            criminalID = Long.parseLong((String) criminalIDValue);
+        } else {
+            // Xử lý lỗi - giá trị không hợp lệ
+        }
+
         dateOfVisit = (String) jTable2.getValueAt(row_selected, 2);
         amountOfTime = (String) jTable2.getValueAt(row_selected, 3);
         name = (String) jTable2.getValueAt(row_selected, 4);
@@ -885,8 +960,8 @@ public class DashboardView extends javax.swing.JFrame {
         relationship = (String) jTable2.getValueAt(row_selected, 6);
         location = (String) jTable2.getValueAt(row_selected, 7);
 
-        visitorIDTextField.setText(visitorID);
-        criminalIDTextField.setText(criminalID);
+        visitorIDTextField.setText(visitorID.toString());
+        criminalIDTextField.setText(criminalID.toString());
         dateOfVisitTextField.setText(dateOfVisit);
         timeTextField.setText(time);
         amountOfTimeTextField.setText(amountOfTime);
@@ -896,6 +971,33 @@ public class DashboardView extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jTable2MouseClicked
+
+    private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
+        // TODO add your handling code here:
+        String type = (String) jComboBox2.getSelectedItem();
+        System.out.println(type);
+        if (type == "All") {
+            display(this.getAllVisitor());
+        } else if (type == "Name") {
+            String name = this.jSearchText.getText();
+            display(this.findByName(name));
+        } else if (type == "ID") {
+            String id = this.jSearchText.getText();
+            display(this.findById(id));
+        }
+    }//GEN-LAST:event_SearchButtonActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void SortButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortButtonActionPerformed
+        // TODO add your handling code here:
+        String type = (String) SortComboBox.getSelectedItem();
+        if (type == "Name") {
+            display(this.sortByName());
+        }
+    }//GEN-LAST:event_SortButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -956,7 +1058,7 @@ public class DashboardView extends javax.swing.JFrame {
         Element Visitor = doc.createElement("Visitor");
 
         Element CriminalID = doc.createElement("CriminalID");
-        CriminalID.setTextContent(vi.getCriminalID());
+        CriminalID.setTextContent(vi.getCriminalID().toString());
 
         Element DateOfVisit = doc.createElement("DateOfVisit");
         DateOfVisit.setTextContent(vi.getDateOfVisit());
@@ -976,7 +1078,7 @@ public class DashboardView extends javax.swing.JFrame {
         Element Relationship = doc.createElement("Relationship");
         Relationship.setTextContent(vi.getRelationship());
 
-        Visitor.setAttribute("visitorID", vi.getVisitorID());
+        Visitor.setAttribute("visitorID", vi.getVisitorID().toString());
         Visitor.appendChild(CriminalID);
         Visitor.appendChild(DateOfVisit);
         Visitor.appendChild(Time);
@@ -1019,7 +1121,43 @@ public class DashboardView extends javax.swing.JFrame {
         relationshipTextField.setText("");
     }
 
+    ArrayList<Visitor> findByName(String name) {
+        viList = this.getAllVisitor();
+        ArrayList<Visitor> res = new ArrayList<>();
+        for (Visitor vi : viList) {
+            if (vi.getNameVisitor().contains(name)) {
+                res.add(vi);
+            }
+        }
+        return res;
+    }
+
+    ArrayList<Visitor> findById(String id) {
+        viList = this.getAllVisitor();
+        ArrayList<Visitor> res = new ArrayList<>();
+        for (Visitor vi : viList) {
+            if (vi.getVisitorID().equals(id)) {
+                res.add(vi);
+            }
+        }
+        return res;
+    }
+
+    ArrayList<Visitor> sortByName() {
+        viList = this.getAllVisitor();
+        Collections.sort(viList, new Comparator<Visitor>() {
+            @Override
+            public int compare(Visitor visitor1, Visitor visitor2) {
+                return visitor1.getNameVisitor().compareTo(visitor2.getNameVisitor());
+            }
+        });
+        return viList;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton SearchButton;
+    private javax.swing.JButton SortButton;
+    private javax.swing.JComboBox<String> SortComboBox;
     private javax.swing.JButton addButton;
     private javax.swing.JTextField amountOfTimeTextField;
     private javax.swing.JButton clearButton;
@@ -1068,7 +1206,6 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1083,11 +1220,11 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jSearchText;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

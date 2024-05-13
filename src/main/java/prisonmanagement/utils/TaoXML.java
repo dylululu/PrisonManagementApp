@@ -32,11 +32,10 @@ public class TaoXML {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
 
-            Visitor vi1 = new Visitor("1", "1", "19/2/2024", "13:00", "50 ", "Phong 1", "Hai Nam","Nguoi yeu");
+            
 
             Element VisitorInformation = doc.createElement("VisitorInformation");
 
-            addVisitor(doc, VisitorInformation, vi1);
 
             doc.appendChild(VisitorInformation);
 
@@ -68,7 +67,7 @@ public class TaoXML {
 //        Element VisitorID = doc.createElement("VisitorID");
 //        VisitorID.setTextContent(vi.getVisitorID());
         Element CriminalID = doc.createElement("CriminalID");
-        CriminalID.setTextContent(vi.getCriminalID());
+        CriminalID.setTextContent(vi.getCriminalID().toString());
 
         Element DateOfVisit = doc.createElement("DateOfVisit");
         DateOfVisit.setTextContent(vi.getDateOfVisit());
@@ -88,7 +87,7 @@ public class TaoXML {
         Element Relationship = doc.createElement("Relationship");
         Relationship.setTextContent(vi.getRelationship());
 
-        Visitor.setAttribute("visitorID", vi.getVisitorID());
+        Visitor.setAttribute("visitorID", vi.getVisitorID().toString());
         Visitor.appendChild(CriminalID);
         Visitor.appendChild(DateOfVisit);
         Visitor.appendChild(Time);

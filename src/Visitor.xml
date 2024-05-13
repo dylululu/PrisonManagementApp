@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <VisitorInformation>
-                                                                                                            
+                                                                                                                                          
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -36,7 +46,17 @@
    
    
    <Visitor visitorID="1">
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -72,7 +92,17 @@
       
       
       <CriminalID>1</CriminalID>
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -108,7 +138,17 @@
       
       
       <DateOfVisit>19/2/2024</DateOfVisit>
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -144,7 +184,7 @@
       
       
       <Time>13:00</Time>
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                    
       
       
       
@@ -179,8 +219,28 @@
       
       
       
-      <AmountOfTime>50 </AmountOfTime>
-                                                                                                                                                                                                                        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <AmountOfTime>50 min</AmountOfTime>
+                                                                                                                                                                                                                                                                                    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -216,7 +276,17 @@
       
       
       <Location>Phong 1</Location>
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -252,7 +322,17 @@
       
       
       <Name>Hai Nam</Name>
-                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -288,7 +368,17 @@
       
       
       <Relationship>Nguoi yeu</Relationship>
-                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                 
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -324,7 +414,7 @@
    
    
    </Visitor>
-                                                                                                         
+                                                                                                                                       
    
    
    
@@ -409,31 +499,207 @@
 
 
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    <Visitor visitorID="2">
-            
-      <CriminalID>2</CriminalID>
-            
-      <DateOfVisit>10/2/2025</DateOfVisit>
-            
-      <Time>15:00</Time>
-            
-      <AmountOfTime>40 min</AmountOfTime>
-            
-      <Location>Phòng 1</Location>
-            
-      <Name>Duy Lưu</Name>
-            
-      <Relationship>Anh trai</Relationship>
-         
+                                                                        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <CriminalID>1</CriminalID>
+                                                                        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <DateOfVisit>19/2/2024</DateOfVisit>
+                                                                        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <Time>13:00</Time>
+                                                                        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <AmountOfTime>50 min</AmountOfTime>
+                                                                        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <Location>Phong 1</Location>
+                                                                        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <Name>Hai Nam</Name>
+                                                                        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <Relationship>Nguoi yeu</Relationship>
+                                                                     
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    </Visitor>
+                                 
+   
+   
+   
+
+
+   
+   
+   
+
+
+   
+   
+   
    
    <Visitor visitorID="3">
-      <CriminalID>1</CriminalID>
-      <DateOfVisit>20/2/2025</DateOfVisit>
-      <Time>8:30</Time>
-      <AmountOfTime>50 min</AmountOfTime>
+                              
+      
+      
+      
+      <CriminalID>3</CriminalID>
+                              
+      
+      
+      
+      <DateOfVisit>10/2/2024</DateOfVisit>
+                              
+      
+      
+      
+      <Time>15:00</Time>
+                              
+      
+      
+      
+      <AmountOfTime>60 min</AmountOfTime>
+                              
+      
+      
+      
       <Location>Phòng 2</Location>
-      <Name>Nguyễn Văn A</Name>
-      <Relationship>Em trai</Relationship>
+                              
+      
+      
+      
+      <Name>Duy Lưu</Name>
+                              
+      
+      
+      
+      <Relationship>Anh trai</Relationship>
+                           
+   
+   
+   
    </Visitor>
+            
+   
+   
+   
+   <Visitor visitorID="4">
+                        
+      
+      
+      <CriminalID>4</CriminalID>
+                        
+      
+      
+      <DateOfVisit>21/03/2022</DateOfVisit>
+                        
+      
+      
+      <Time>8:00</Time>
+                        
+      
+      
+      <AmountOfTime>40 min</AmountOfTime>
+                        
+      
+      
+      <Location>Phòng 3</Location>
+                        
+      
+      
+      <Name>Nam Long</Name>
+                        
+      
+      
+      <Relationship>bố vợ</Relationship>
+                     
+   
+   
+   </Visitor>
+         
+
+
 </VisitorInformation>

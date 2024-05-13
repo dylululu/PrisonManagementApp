@@ -1,6 +1,7 @@
 prisonmanagement\model\Criminal.class
 prisonmanagement\view\DashboardView$19.class
 prisonmanagement\model\Visitor.class
+prisonmanagement\view\DashboardView$22.class
 prisonmanagement\view\DashboardView$12.class
 prisonmanagement\view\DashboardView$14.class
 prisonmanagement\view\DashboardView$5.class
@@ -9,15 +10,18 @@ prisonmanagement\view\LoginView$2.class
 prisonmanagement\view\DashboardView$10.class
 prisonmanagement\entity\User.class
 prisonmanagement\view\DashboardView$16.class
+prisonmanagement\view\DashboardView$20.class
 prisonmanagement\view\DashboardView$7.class
 prisonmanagement\view\DashboardView.class
 prisonmanagement\view\DashboardView$18.class
 prisonmanagement\view\DashboardView$2.class
+prisonmanagement\view\DashboardView$23.class
 main\main.class
 prisonmanagement\view\DashboardView$13.class
 prisonmanagement\view\DashboardView$6.class
 prisonmanagement\controller\LoginController.class
 prisonmanagement\view\DashboardView$1.class
+prisonmanagement\view\DashboardView$21.class
 prisonmanagement\view\DashboardView$4.class
 prisonmanagement\view\DashboardView$11.class
 prisonmanagement\view\DashboardView$15.class

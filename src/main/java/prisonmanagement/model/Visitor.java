@@ -23,7 +23,6 @@ public class Visitor {
     private String relationship;
 
     public Visitor() {
-
     }
 
     public Visitor( String visitorID, String criminalID, String dateOfVisit, String time, String amountOfTime, String location, String nameVisitor, String relationship) {
