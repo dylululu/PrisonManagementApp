@@ -4,6 +4,7 @@ prisonmanagement\model\Visitor.class
 prisonmanagement\view\DashboardView$22.class
 prisonmanagement\view\DashboardView$12.class
 prisonmanagement\view\DashboardView$14.class
+prisonmanagement\view\DashboardView$24.class
 prisonmanagement\view\DashboardView$5.class
 prisonmanagement\controller\LoginController$LoginListener.class
 prisonmanagement\view\LoginView$2.class

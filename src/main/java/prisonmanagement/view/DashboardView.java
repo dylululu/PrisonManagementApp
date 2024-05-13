@@ -666,21 +666,18 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel6.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
         locationTextField.setBorder(null);
-        locationTextField.setCaretColor(new java.awt.Color(255, 255, 255));
         jPanel6.add(locationTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 180, -1));
 
         jLabel32.setText("______________________________________");
         jPanel6.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
 
         nameTextField.setBorder(null);
-        nameTextField.setCaretColor(new java.awt.Color(255, 255, 255));
         jPanel6.add(nameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 180, -1));
 
         jLabel33.setText("______________________________________");
         jPanel6.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, -1, -1));
 
         relationshipTextField.setBorder(null);
-        relationshipTextField.setCaretColor(new java.awt.Color(255, 255, 255));
         jPanel6.add(relationshipTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 180, -1));
 
         jLabel34.setText("______________________________________");
@@ -729,7 +726,7 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 660, 400));
 
         jSearchText.setBorder(null);
-        jSearchText.setCaretColor(new java.awt.Color(255, 255, 255));
+        jSearchText.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jSearchText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jSearchTextActionPerformed(evt);
@@ -741,7 +738,7 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel50.setText("_____________________________________________________________________________________________________________________");
         jPanel2.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 390, 20));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "ID", "Name", "Gender" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "ID", "Name", "Gender", "Date" }));
         jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -764,7 +761,7 @@ public class DashboardView extends javax.swing.JFrame {
                 SortButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(SortButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 80, -1, -1));
+        jPanel2.add(SortButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 80, 80, -1));
 
         SortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Name", "Date" }));
         jPanel2.add(SortComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 50, 70, -1));
@@ -984,6 +981,9 @@ public class DashboardView extends javax.swing.JFrame {
         } else if (type == "ID") {
             String id = this.jSearchText.getText();
             display(this.findById(id));
+        } else if (type == "Date"){
+            String date = this.jSearchText.getText();
+            display(this.findByDate(date));
         }
     }//GEN-LAST:event_SearchButtonActionPerformed
 
@@ -996,6 +996,8 @@ public class DashboardView extends javax.swing.JFrame {
         String type = (String) SortComboBox.getSelectedItem();
         if (type == "Name") {
             display(this.sortByName());
+        } else if (type == "Date") {
+            display(this.sortByDate());
         }
     }//GEN-LAST:event_SortButtonActionPerformed
 
@@ -1142,6 +1144,17 @@ public class DashboardView extends javax.swing.JFrame {
         }
         return res;
     }
+    
+    ArrayList<Visitor> findByDate(String date) {
+        viList = this.getAllVisitor();
+        ArrayList<Visitor> res = new ArrayList<>();
+        for (Visitor vi : viList) {
+            if (vi.getDateOfVisit().contains(date)) {
+                res.add(vi);
+            }
+        }
+        return res;
+    }
 
     ArrayList<Visitor> sortByName() {
         viList = this.getAllVisitor();
@@ -1152,6 +1165,25 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         return viList;
+    }
+
+    ArrayList<Visitor> sortByDate() {
+        viList = this.getAllVisitor();
+        Collections.sort(viList, new Comparator<Visitor>() {
+            @Override
+            public int compare(Visitor visitor1, Visitor visitor2) {
+                return compareDate(visitor1.getDateOfVisit(), visitor2.getDateOfVisit());
+            }
+        });
+        return viList;
+    }
+
+    private int compareDate(String date1, String date2) {      
+        String[] date1Parts = date1.split("/");
+        String d1 = date1Parts[2] + date1Parts[1] + date1Parts[0];
+        String[] date2Parts = date2.split("/");
+        String d2 = date2Parts[2] + date2Parts[1] + date2Parts[0];
+        return d1.compareTo(d2);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
