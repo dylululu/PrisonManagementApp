@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package prisonmanagement.view;
+//package prisonmanagement.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,7 +35,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import prisonmanagement.model.Visitor;
-import prisonmanagement.utils.TaoXML;
+import prisonmanagement.utils.TaoXMLVisitor;
+import prisonmanagement.controller.VisitorController;
+import prisonmanagement.controller.VisitorXmlController;
 
 /**
  *
@@ -45,57 +48,26 @@ public class DashboardView extends javax.swing.JFrame {
     /**
      * Creates new form DashboardView
      */
-    DocumentBuilderFactory dbf;
-    DocumentBuilder db;
-    Document doc;
-    String ten_file = "src/Visitor.xml";
-    ArrayList<Visitor> viList;
-    DefaultTableModel dfModel1;
+    private DocumentBuilderFactory dbf;
+    private DocumentBuilder db;
+    private Document doc;
+    private String ten_file = "src/Visitor.xml";
+    private ArrayList<Visitor> viList;
+    public DefaultTableModel dfModel1;
 
-    ArrayList<Visitor> getAllVisitor() {
-        dbf = DocumentBuilderFactory.newInstance();
-        try {
-            db = dbf.newDocumentBuilder();
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            doc = db.parse(ten_file);
-        } catch (SAXException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private final VisitorController visitorController;
+    private final VisitorXmlController visitorXmlController;
 
-        NodeList viVistor = doc.getElementsByTagName("Visitor");
+    public DashboardView(VisitorController visitorController, VisitorXmlController visitorXmlController) {
+        initComponents();
+        setLocationRelativeTo(null);
+        this.visitorController = visitorController;
+        this.visitorXmlController = visitorXmlController;
+        this.displayVisitor(this.visitorXmlController.getAllVisitor());
 
-        NodeList viCriminalID = doc.getElementsByTagName("CriminalID");
-        NodeList viDateOfVisit = doc.getElementsByTagName("DateOfVisit");
-        NodeList viAmountOfTime = doc.getElementsByTagName("AmountOfTime");
-        NodeList viName = doc.getElementsByTagName("Name");
-        NodeList viRelationship = doc.getElementsByTagName("Relationship");
-        NodeList viLocation = doc.getElementsByTagName("Location");
-        NodeList viTime = doc.getElementsByTagName("Time");
-
-        viList = new ArrayList<>();
-        for (int i = 0; i < viVistor.getLength(); i++) {
-            Visitor vi = new Visitor();
-
-            vi.setVisitorID(viVistor.item(i).getAttributes().getNamedItem("visitorID").getNodeValue());
-            vi.setCriminalID(viCriminalID.item(i).getTextContent());
-            vi.setDateOfVisit(viDateOfVisit.item(i).getTextContent());
-            vi.setAmountOfTime(viAmountOfTime.item(i).getTextContent());
-            vi.setNameVisitor(viName.item(i).getTextContent());
-            vi.setRelationship(viRelationship.item(i).getTextContent());
-            vi.setLocation(viLocation.item(i).getTextContent());
-            vi.setTime(viTime.item(i).getTextContent());
-
-            viList.add(vi);
-        }
-        return viList;
     }
 
-    private void display(ArrayList<Visitor> visitorList) {
+    private void displayVisitor(ArrayList<Visitor> visitorList) {
         try {
 
             try {
@@ -164,13 +136,6 @@ public class DashboardView extends javax.swing.JFrame {
             Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public DashboardView() {
-        initComponents();
-        setLocationRelativeTo(null);
-        display(this.getAllVisitor());
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -738,7 +703,7 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel50.setText("_____________________________________________________________________________________________________________________");
         jPanel2.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 390, 20));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "ID", "Name", "Gender", "Date" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "ID", "Name", "Date" }));
         jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -829,7 +794,7 @@ public class DashboardView extends javax.swing.JFrame {
             n1Visitor.item(13).setTextContent(relationship);
 
             saveFile();
-            display(this.getAllVisitor());
+            this.displayVisitor(this.visitorXmlController.getAllVisitor());
 
         } catch (XPathExpressionException ex) {
             Logger.getLogger(DashboardView.class.getName()).log(Level.SEVERE, null, ex);
@@ -851,20 +816,20 @@ public class DashboardView extends javax.swing.JFrame {
         name = nameTextField.getText();
         relationship = relationshipTextField.getText();
 
-        if (!fullInformation(visitorID, criminalID, dateOfVisit, time, amountOfTime, location, name, relationship)) {
+        if (!this.visitorController.fullInformation(visitorID, criminalID, dateOfVisit, time, amountOfTime, location, name, relationship)) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đủ thông tin ", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            if (daTrungVistorID(visitorID)) {
+            if (this.visitorController.daTrungVistorID(visitorID)) {
                 JOptionPane.showMessageDialog(this, "Đã trùng mã VisitorID", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
                 Visitor visitor = new Visitor(visitorID, criminalID, dateOfVisit, time, amountOfTime, location, name, relationship);
                 Element VisitorInformation = doc.getDocumentElement();
-                addVisitor(doc, VisitorInformation, visitor);
+                this.visitorXmlController.addVisitor(doc, VisitorInformation, visitor);
                 saveFile();
 
                 JOptionPane.showMessageDialog(this, "Thêm thành công", "Information", JOptionPane.INFORMATION_MESSAGE);
-                delete();
-                display(this.getAllVisitor());
+                deleteVisitor();
+                this.displayVisitor(this.visitorController.getAllVisitor());
 
             }
         }
@@ -886,7 +851,7 @@ public class DashboardView extends javax.swing.JFrame {
             if (result == 0) {
                 parent.removeChild(chose);
                 saveFile();
-                display(this.getAllVisitor());
+                this.displayVisitor(this.visitorController.getAllVisitor());
                 JOptionPane.showMessageDialog(this, "Xóa thành công!", "Information", JOptionPane.INFORMATION_MESSAGE);
 
             }
@@ -897,7 +862,7 @@ public class DashboardView extends javax.swing.JFrame {
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         // TODO add your handling code here:
-        delete();
+        deleteVisitor();
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void criminalIDTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_criminalIDTextFieldActionPerformed
@@ -966,24 +931,22 @@ public class DashboardView extends javax.swing.JFrame {
         nameTextField.setText(name);
         relationshipTextField.setText(relationship);
 
-
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchButtonActionPerformed
         // TODO add your handling code here:
         String type = (String) jComboBox2.getSelectedItem();
-        System.out.println(type);
         if (type == "All") {
-            display(this.getAllVisitor());
+            this.displayVisitor(this.visitorController.getAllVisitor());
         } else if (type == "Name") {
             String name = this.jSearchText.getText();
-            display(this.findByName(name));
+            this.displayVisitor(this.visitorController.findByName(name));
         } else if (type == "ID") {
             String id = this.jSearchText.getText();
-            display(this.findById(id));
-        } else if (type == "Date"){
+            this.displayVisitor(this.visitorController.findById(id));
+        } else if (type == "Date") {
             String date = this.jSearchText.getText();
-            display(this.findByDate(date));
+            this.displayVisitor(this.visitorController.findByDate(date));
         }
     }//GEN-LAST:event_SearchButtonActionPerformed
 
@@ -995,9 +958,9 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
         String type = (String) SortComboBox.getSelectedItem();
         if (type == "Name") {
-            display(this.sortByName());
+            displayVisitor(this.visitorController.sortByName());
         } else if (type == "Date") {
-            display(this.sortByDate());
+            displayVisitor(this.visitorController.sortByDate());
         }
     }//GEN-LAST:event_SortButtonActionPerformed
 
@@ -1028,70 +991,17 @@ public class DashboardView extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and displayVisitor the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DashboardView().setVisible(true);
+                VisitorController visitorController = new VisitorController();
+                VisitorXmlController visitorXmlController = new VisitorXmlController();
+
+                new DashboardView(visitorController, visitorXmlController).setVisible(true);
             }
         });
     }
 
-    private boolean fullInformation(String visitorID, String criminalID, String dateOfVisit, String time, String amountOfTime, String location, String name, String relationship) {
-        boolean full = true;
-        if (visitorID.trim().isEmpty() || criminalID.trim().isEmpty() || dateOfVisit.trim().isEmpty() || time.trim().isEmpty() || amountOfTime.trim().isEmpty() || location.trim().isEmpty() || name.trim().isEmpty()
-                || relationship.trim().isEmpty()) {
-            full = false;
-        }
-        return full;
-    }
-
-    private boolean daTrungVistorID(String visitorID) {
-        boolean daTrung = false;
-        for (Visitor vi : viList) {
-            if (vi.getVisitorID().compareToIgnoreCase(visitorID) == 0) {
-                daTrung = true;
-                break;
-            }
-        }
-        return daTrung;
-    }
-
-    static private void addVisitor(Document doc, Element VisitorInformation, Visitor vi) {
-        Element Visitor = doc.createElement("Visitor");
-
-        Element CriminalID = doc.createElement("CriminalID");
-        CriminalID.setTextContent(vi.getCriminalID().toString());
-
-        Element DateOfVisit = doc.createElement("DateOfVisit");
-        DateOfVisit.setTextContent(vi.getDateOfVisit());
-
-        Element Time = doc.createElement("Time");
-        Time.setTextContent(vi.getTime());
-
-        Element AmountOfTime = doc.createElement("AmountOfTime");
-        AmountOfTime.setTextContent(vi.getAmountOfTime());
-
-        Element Location = doc.createElement("Location");
-        Location.setTextContent(vi.getLocation());
-
-        Element Name = doc.createElement("Name");
-        Name.setTextContent(vi.getNameVisitor());
-
-        Element Relationship = doc.createElement("Relationship");
-        Relationship.setTextContent(vi.getRelationship());
-
-        Visitor.setAttribute("visitorID", vi.getVisitorID().toString());
-        Visitor.appendChild(CriminalID);
-        Visitor.appendChild(DateOfVisit);
-        Visitor.appendChild(Time);
-        Visitor.appendChild(AmountOfTime);
-        Visitor.appendChild(Location);
-        Visitor.appendChild(Name);
-        Visitor.appendChild(Relationship);
-
-        VisitorInformation.appendChild(Visitor);
-
-    }
 
     private void saveFile() {
         TransformerFactory tff = TransformerFactory.newInstance();
@@ -1105,14 +1015,14 @@ public class DashboardView extends javax.swing.JFrame {
             System.out.println("Ghi file thanh cong");
 
         } catch (TransformerConfigurationException ex) {
-            Logger.getLogger(TaoXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
-            Logger.getLogger(TaoXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    private void delete() {
+    private void deleteVisitor() {
         visitorIDTextField.setText("");
         criminalIDTextField.setText("");
         dateOfVisitTextField.setText("");
@@ -1123,68 +1033,6 @@ public class DashboardView extends javax.swing.JFrame {
         relationshipTextField.setText("");
     }
 
-    ArrayList<Visitor> findByName(String name) {
-        viList = this.getAllVisitor();
-        ArrayList<Visitor> res = new ArrayList<>();
-        for (Visitor vi : viList) {
-            if (vi.getNameVisitor().contains(name)) {
-                res.add(vi);
-            }
-        }
-        return res;
-    }
-
-    ArrayList<Visitor> findById(String id) {
-        viList = this.getAllVisitor();
-        ArrayList<Visitor> res = new ArrayList<>();
-        for (Visitor vi : viList) {
-            if (vi.getVisitorID().equals(id)) {
-                res.add(vi);
-            }
-        }
-        return res;
-    }
-    
-    ArrayList<Visitor> findByDate(String date) {
-        viList = this.getAllVisitor();
-        ArrayList<Visitor> res = new ArrayList<>();
-        for (Visitor vi : viList) {
-            if (vi.getDateOfVisit().contains(date)) {
-                res.add(vi);
-            }
-        }
-        return res;
-    }
-
-    ArrayList<Visitor> sortByName() {
-        viList = this.getAllVisitor();
-        Collections.sort(viList, new Comparator<Visitor>() {
-            @Override
-            public int compare(Visitor visitor1, Visitor visitor2) {
-                return visitor1.getNameVisitor().compareTo(visitor2.getNameVisitor());
-            }
-        });
-        return viList;
-    }
-
-    ArrayList<Visitor> sortByDate() {
-        viList = this.getAllVisitor();
-        Collections.sort(viList, new Comparator<Visitor>() {
-            @Override
-            public int compare(Visitor visitor1, Visitor visitor2) {
-                return compareDate(visitor1.getDateOfVisit(), visitor2.getDateOfVisit());
-            }
-        });
-        return viList;
-    }
-
-    private int compareDate(String date1, String date2) {      
-        String[] date1Parts = date1.split("/");
-        String d1 = date1Parts[2] + date1Parts[1] + date1Parts[0];
-        String[] date2Parts = date2.split("/");
-        String d2 = date2Parts[2] + date2Parts[1] + date2Parts[0];
-        return d1.compareTo(d2);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SearchButton;
@@ -1243,8 +1091,8 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    public javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -1253,9 +1101,9 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jSearchText;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    public javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    public javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

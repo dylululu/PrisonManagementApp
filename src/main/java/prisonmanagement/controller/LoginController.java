@@ -45,7 +45,7 @@ public class LoginController {
             
             if (userDao.checkUser(user)) {
                 // nếu đăng nhập thành công, mở màn hình quản lý sinh viên
-               DashboardView = new DashboardView();
+               DashboardView = new DashboardView(null, null);
                DashboardView.setVisible(true);
                // StudentController studentController = new StudentController(studentView);
                // studentController.showStudentView();

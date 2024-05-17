@@ -13,10 +13,9 @@ import java.util.Date;
 public class Criminal {
     private String ID;
     private String name;
-    private Date dateOfBitrh;
+    private String dateOfBitrh;
     private String gender;
     private String year;
-    private Date yearStart;
     private String room;
     private String crime;
     
@@ -24,15 +23,18 @@ public class Criminal {
         
     }
 
-    public Criminal(String ID, String name, Date dateOfBitrh, String gender, String year, Date yearStart, String room, String crime) {
+    public Criminal(String ID, String name, String dateOfBitrh, String gender, String year, String room, String crime) {
         this.ID = ID;
         this.name = name;
         this.dateOfBitrh = dateOfBitrh;
         this.gender = gender;
         this.year = year;
-        this.yearStart = yearStart;
         this.room = room;
         this.crime = crime;
+    }
+
+    Criminal(String ID, String name, Date dateOfBirth, String gender, String year, String room, String crime) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public String getID() {
@@ -51,11 +53,11 @@ public class Criminal {
         this.name = name;
     }
 
-    public Date getDateOfBitrh() {
+    public String getDateOfBitrh() {
         return dateOfBitrh;
     }
 
-    public void setDateOfBitrh(Date dateOfBitrh) {
+    public void setDateOfBitrh(String dateOfBitrh) {
         this.dateOfBitrh = dateOfBitrh;
     }
 
@@ -75,13 +77,7 @@ public class Criminal {
         this.year = year;
     }
 
-    public Date getYearStart() {
-        return yearStart;
-    }
-
-    public void setYearStart(Date yearStart) {
-        this.yearStart = yearStart;
-    }
+   
 
     public String getRoom() {
         return room;
@@ -101,8 +97,9 @@ public class Criminal {
 
     @Override
     public String toString() {
-        return "Criminal{" + "ID=" + ID + ", name=" + name + ", dateOfBitrh=" + dateOfBitrh + ", gender=" + gender + ", year=" + year + ", yearStart=" + yearStart + ", room=" + room + ", crime=" + crime + '}';
+        return "Criminal{" + "ID=" + ID + ", name=" + name + ", dateOfBitrh=" + dateOfBitrh + ", gender=" + gender + ", year=" + year +  ", room=" + room + ", crime=" + crime + '}';
     }
 
+    
     
 }

@@ -24,7 +24,7 @@ import prisonmanagement.model.Visitor;
  *
  * @author 84768
  */
-public class TaoXML {
+public class TaoXMLVisitor {
 
     public static void main(String[] args) {
         try {
@@ -50,53 +50,16 @@ public class TaoXML {
                 System.out.println("Ghi file thanh cong");
 
             } catch (TransformerConfigurationException ex) {
-                Logger.getLogger(TaoXML.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
             } catch (TransformerException ex) {
-                Logger.getLogger(TaoXML.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(TaoXML.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    static private void addVisitor(Document doc, Element VisitorInformation, Visitor vi) {
-        Element Visitor = doc.createElement("Visitor");
 
-//        Element VisitorID = doc.createElement("VisitorID");
-//        VisitorID.setTextContent(vi.getVisitorID());
-        Element CriminalID = doc.createElement("CriminalID");
-        CriminalID.setTextContent(vi.getCriminalID().toString());
-
-        Element DateOfVisit = doc.createElement("DateOfVisit");
-        DateOfVisit.setTextContent(vi.getDateOfVisit());
-
-        Element Time = doc.createElement("Time");
-        Time.setTextContent(vi.getTime());
-
-        Element AmountOfTime = doc.createElement("AmountOfTime");
-        AmountOfTime.setTextContent(vi.getAmountOfTime());
-
-        Element Location = doc.createElement("Location");
-        Location.setTextContent(vi.getLocation());
-
-        Element Name = doc.createElement("Name");
-        Name.setTextContent(vi.getNameVisitor());
-
-        Element Relationship = doc.createElement("Relationship");
-        Relationship.setTextContent(vi.getRelationship());
-
-        Visitor.setAttribute("visitorID", vi.getVisitorID().toString());
-        Visitor.appendChild(CriminalID);
-        Visitor.appendChild(DateOfVisit);
-        Visitor.appendChild(Time);
-        Visitor.appendChild(AmountOfTime);
-        Visitor.appendChild(Location);
-        Visitor.appendChild(Name);
-        Visitor.appendChild(Relationship);
-
-        VisitorInformation.appendChild(Visitor);
-
-    }
 }
