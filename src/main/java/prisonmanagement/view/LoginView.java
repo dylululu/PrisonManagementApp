@@ -27,8 +27,10 @@ public class LoginView extends javax.swing.JFrame implements ActionListener{
     /**
      * Creates new form LoginView
      */
+    
     public LoginView() {
         initComponents();
+        setLocationRelativeTo(null);
         jTextField1.setBackground(new java.awt.Color(0, 0, 0,1));
         jTextField1.setOpaque(false);
         jPasswordField2.setBackground(new java.awt.Color(0, 0, 0,1));
