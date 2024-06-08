@@ -18,37 +18,38 @@ import prisonmanagement.view.LoginView;
 //import qlsv_swing.qlsv.view.StudentView;
 
 public class LoginController {
+
     private UserFunc userDao;
     private LoginView loginView;
     private DashboardView DashboardView;
     //private StudentView studentView;
-    
+
     public LoginController(LoginView view) {
         this.loginView = view;
         this.userDao = new UserFunc();
         view.addLoginListener(new LoginListener());
     }
-    
+
     public void showLoginView() {
         loginView.setVisible(true);
     }
-    
+
     /**
      *
-     * 
+     *
      * @author viettuts.vn
      */
     class LoginListener implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             User user = loginView.getUser();
-            
+
             if (userDao.checkUser(user)) {
                 // nếu đăng nhập thành công, mở màn hình quản lý sinh viên
-               DashboardView = new DashboardView(null, null);
-               DashboardView.setVisible(true);
-               // StudentController studentController = new StudentController(studentView);
-               // studentController.showStudentView();
+                VisitorController visitorController = new VisitorController();
+                CriminalController criminalController = new CriminalController();
+                new DashboardView(visitorController, criminalController).setVisible(true);
                 loginView.setVisible(false);
             } else {
                 loginView.showMessage("username hoặc password không đúng.");

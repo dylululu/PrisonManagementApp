@@ -26,74 +26,78 @@ import prisonmanagement.model.Criminal;
  */
 public class TaoXMLCriminal {
 
-    public static void main(String[] args) {
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
+//    public static void main(String[] args) {
+//        try {
+//            DocumentBuilderFactory dbf1 = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder db1 = dbf1.newDocumentBuilder();
+//            Document doc1 = db1.newDocument();
+//
+//            Element CriminalInformation = doc1.createElement("CriminalInformation");
+//            Criminal Cr1 = new Criminal("1", "Phạm Hải Nam", "19/10/2003", "nam", "10", "613", "Qua dep trai", "It nghiem trong");
+//            addCriminal(doc1, CriminalInformation, Cr1);
+//
+//            doc1.appendChild(CriminalInformation);
+//
+//            TransformerFactory tff1 = TransformerFactory.newInstance();
+//            try {
+//                Transformer tf1 = tff1.newTransformer();
+//                tf1.setOutputProperty(OutputKeys.INDENT, "yes");
+//                tf1.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "3");
+//                DOMSource source1 = new DOMSource(doc1);
+//                StreamResult result1 = new StreamResult("src/Criminal.xml");
+//                tf1.transform(source1, result1);
+//                System.out.println("Ghi file thanh cong");
+//
+//            } catch (TransformerConfigurationException ex) {
+//                Logger.getLogger(TaoXMLCriminal.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (TransformerException ex) {
+//                Logger.getLogger(TaoXMLCriminal.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//        } catch (ParserConfigurationException ex) {
+//            Logger.getLogger(TaoXMLCriminal.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
 
-            Element CriminalInformation = doc.createElement("CriminalInformation");
-            Criminal Cr1 = new Criminal("1", "Phạm Hải Nam", "19/10/2003", "nam", "10", "613", "Qua dep trai");
-            addCriminal(doc, CriminalInformation, Cr1);
+    static private void addCriminal(Document doc1, Element CriminalInformation, Criminal Cr) {
+        Element Criminal = doc1.createElement("Criminal");
 
-            doc.appendChild(CriminalInformation);
+        Element criminalID = doc1.createElement("criminalID");
+        criminalID.setTextContent(Cr.getcriminalID().toString());
 
-            TransformerFactory tff = TransformerFactory.newInstance();
-            try {
-                Transformer tf = tff.newTransformer();
-                tf.setOutputProperty(OutputKeys.INDENT, "yes");
-                tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "3");
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult("src/Criminal.xml");
-                tf.transform(source, result);
-                System.out.println("Ghi file thanh cong");
+        Element criminalName = doc1.createElement("criminalName");
+        criminalName.setTextContent(Cr.getcriminalName());
 
-            } catch (TransformerConfigurationException ex) {
-                Logger.getLogger(TaoXMLCriminal.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TransformerException ex) {
-                Logger.getLogger(TaoXMLCriminal.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        Element DateOfBirth = doc1.createElement("DateOfBirth");
+        DateOfBirth.setTextContent(Cr.getDateOfBirth());
 
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(TaoXMLCriminal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    static private void addCriminal(Document doc, Element CriminalInformation, Criminal Cr) {
-        Element Criminal = doc.createElement("Criminal");
-
-        Element ID = doc.createElement("ID");
-        ID.setTextContent(Cr.getID().toString());
-
-        Element Name = doc.createElement("Name");
-        Name.setTextContent(Cr.getName());
-
-        Element DateOfBirth = doc.createElement("DateOfBirth");
-        DateOfBirth.setTextContent(Cr.getDateOfBitrh());
-
-        Element Gender = doc.createElement("Gender");
+        Element Gender = doc1.createElement("Gender");
         Gender.setTextContent(Cr.getGender());
 
-        Element Year = doc.createElement("Year");
+        Element Year = doc1.createElement("Year");
         Year.setTextContent(Cr.getYear());
 
-        Element Room = doc.createElement("Room");
+        Element Room = doc1.createElement("Room");
         Room.setTextContent(Cr.getRoom());
 
-        Element Crime = doc.createElement("Crime");
+        Element Crime = doc1.createElement("Crime");
         Crime.setTextContent(Cr.getCrime());
 
-        Criminal.setAttribute("ID", Cr.getID().toString());
-        Criminal.appendChild(Name);
+        Element CrimeScale = doc1.createElement("CrimeScale");
+        CrimeScale.setTextContent(Cr.getCrimeScale());
+
+        Criminal.setAttribute("criminalID", Cr.getcriminalID().toString());
+        Criminal.appendChild(criminalName);
         Criminal.appendChild(DateOfBirth);
         Criminal.appendChild(Gender);
         Criminal.appendChild(Year);
         Criminal.appendChild(Room);
         Criminal.appendChild(Crime);
+        Criminal.appendChild(CrimeScale);
 
         CriminalInformation.appendChild(Criminal);
 
     }
-     
+
 }

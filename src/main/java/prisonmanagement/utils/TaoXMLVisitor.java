@@ -26,40 +26,36 @@ import prisonmanagement.model.Visitor;
  */
 public class TaoXMLVisitor {
 
-    public static void main(String[] args) {
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
-
-            
-
-            Element VisitorInformation = doc.createElement("VisitorInformation");
-
-
-            doc.appendChild(VisitorInformation);
-
-            TransformerFactory tff = TransformerFactory.newInstance();
-            try {
-                Transformer tf = tff.newTransformer();
-                tf.setOutputProperty(OutputKeys.INDENT, "yes");
-                tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "3");
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult("src/Visitor.xml");
-                tf.transform(source, result);
-                System.out.println("Ghi file thanh cong");
-
-            } catch (TransformerConfigurationException ex) {
-                Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TransformerException ex) {
-                Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
+//    public static void main(String[] args) {
+//        try {
+//            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder db = dbf.newDocumentBuilder();
+//            Document doc = db.newDocument();
+//        
+//            Element VisitorInformation = doc.createElement("VisitorInformation");
+//            doc.appendChild(VisitorInformation);
+//            
+//            TransformerFactory tff = TransformerFactory.newInstance();
+//            try {
+//                Transformer tf = tff.newTransformer();
+//                tf.setOutputProperty(OutputKeys.INDENT, "yes");
+//                tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "3");
+//                DOMSource source = new DOMSource(doc);
+//                StreamResult result = new StreamResult("src/Visitor.xml");
+//                tf.transform(source, result);
+//                System.out.println("Ghi file thanh cong");
+//
+//            } catch (TransformerConfigurationException ex) {
+//                Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (TransformerException ex) {
+//                Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//        } catch (ParserConfigurationException ex) {
+//            Logger.getLogger(TaoXMLVisitor.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    
 
 
 }

@@ -11,54 +11,58 @@ import java.util.Date;
  * @author t460
  */
 public class Criminal {
-    private String ID;
-    private String name;
-    private String dateOfBitrh;
+
+    private String criminalID;
+    private String nameCriminal;
+    private String dateOfBirth;
     private String gender;
     private String year;
     private String room;
     private String crime;
-    
-    public Criminal(){
-        
+    private String crimeScale;
+
+    public Criminal() {
+
     }
 
-    public Criminal(String ID, String name, String dateOfBitrh, String gender, String year, String room, String crime) {
-        this.ID = ID;
-        this.name = name;
-        this.dateOfBitrh = dateOfBitrh;
+    public Criminal(String criminalID, String nameCriminal, String dateOfBirth, String gender, String year, String room, String crime, String crimeScale) {
+        this.criminalID = criminalID;
+        this.nameCriminal = nameCriminal;
+        this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.year = year;
         this.room = room;
         this.crime = crime;
+        this.crimeScale = crimeScale;
+
     }
 
-    Criminal(String ID, String name, Date dateOfBirth, String gender, String year, String room, String crime) {
+    Criminal(String criminalID, String nameCriminal, Date dateOfBirth, String gender, String year, String room, String crime,String crimeScale) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public String getID() {
-        return ID;
+    public String getcriminalID() {
+        return criminalID;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setcriminalID(String criminalID) {
+        this.criminalID = criminalID;
     }
 
-    public String getName() {
-        return name;
+    public String getcriminalName() {
+        return nameCriminal;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setcriminalName(String nameCriminal) {
+        this.nameCriminal = nameCriminal;
     }
 
-    public String getDateOfBitrh() {
-        return dateOfBitrh;
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDateOfBitrh(String dateOfBitrh) {
-        this.dateOfBitrh = dateOfBitrh;
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getGender() {
@@ -77,8 +81,6 @@ public class Criminal {
         this.year = year;
     }
 
-   
-
     public String getRoom() {
         return room;
     }
@@ -95,11 +97,17 @@ public class Criminal {
         this.crime = crime;
     }
 
-    @Override
-    public String toString() {
-        return "Criminal{" + "ID=" + ID + ", name=" + name + ", dateOfBitrh=" + dateOfBitrh + ", gender=" + gender + ", year=" + year +  ", room=" + room + ", crime=" + crime + '}';
+    public void setCrimeScale(String crimeScale) {
+        this.crimeScale = crimeScale;
     }
 
-    
-    
+    public String getCrimeScale() {
+        return crimeScale;
+    }
+
+    @Override
+    public String toString() {
+        return "Criminal{" + "criminalID=" + criminalID + ", nameCriminal=" + nameCriminal + ", dateOfBirth=" + dateOfBirth + ", gender=" + gender + ", year=" + year + ", room=" + room + ", crime=" + crime + ", crimeScale=" + crimeScale +'}';
+    }
+
 }
